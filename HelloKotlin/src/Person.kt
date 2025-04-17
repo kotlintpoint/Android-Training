@@ -9,13 +9,13 @@ class Person (val id: Int, val firstName:String, val lastName: String) {
         // secondary constructor
     }
 
-    constructor(firstName: String): this(2, firstName, "test") {
+    constructor(firstName: String): this(2, firstName, "test.txt") {
         // secondary constructor
     }
 }
 
 fun main() {
-    val p1 = Person(1, "Test", "test")
+    val p1 = Person(1, "Test", "test.txt")
 
     val p2 = Person()
 

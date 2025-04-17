@@ -1,0 +1,16 @@
+File handling process of Kotlin relies on java.io.File and also kotlin.io package which comes in default.
+
+import java.io.File
+
+var dataDir = File(“.”) //get the root directory
+
+Writing to Files
+
+resolve() function creates if there is no file or directory in File object’s path parameter or open the file. Then you can use writeText() or appendText() having UTF-8 character set by default.
+
+val file = File(“.”).resolve(“test2.txt”) /*creates test.txt file in root directory of project*/
+file.writeText(“This is a test!”)
+
+Reading from Files
+
+readText() function of File class can read all content of the file at once on the otherhand readLines() can handle larger contents by reading line by line.

@@ -3,7 +3,6 @@ package pack2
 import companion.Error
 import companion.FileError
 import pack1.Employee
-import pack1.Person
 
 
 //class TestError : Error("Test Error")
@@ -14,7 +13,7 @@ import pack1.Person
 fun main() {
     val emp = Employee()
     emp.firstName = "Test"
-    emp.lastName = "test"
+    emp.lastName = "test.txt"
 
 //    val p1 = Person()
 

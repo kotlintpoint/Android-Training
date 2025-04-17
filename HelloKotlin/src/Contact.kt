@@ -1,4 +1,4 @@
-data class Contact(private val id: Int, var email: String = "test@gmail.com") {
+data class Contact(private val id: Int, var email: String = "test.txt@gmail.com") {
     var category: String = ""
 
     fun printContact() {
@@ -12,7 +12,7 @@ fun main() {
     val c1 = Contact(1, "abc@gmail.com")
 //    c1.id = 10
     c1.category = "Category1"
-//    c1.email = "test@gmail.com"
+//    c1.email = "test.txt@gmail.com"
 
     val c2 = Contact(2, "pqr@gmail.com")
     c2.category = "Category2"
