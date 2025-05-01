@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Hello Android</string>
+
+    <string name="welcome">Welcome !!!</string>
+    <string name="good_morning">Good Morning !!!</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+</resources>
