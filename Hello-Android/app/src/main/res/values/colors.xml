@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="relative_background">#AEBDAB</color>
+    <color name="bg_actionbar">#85A5D9</color>
 </resources>

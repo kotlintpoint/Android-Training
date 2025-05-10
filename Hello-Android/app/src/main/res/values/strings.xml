@@ -5,4 +5,10 @@
     <string name="good_morning">Good Morning !!!</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="login_here">Login Here!!!</string>
+    <string name="register_here">Register Here!!!</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="register">Register</string>
 </resources>
