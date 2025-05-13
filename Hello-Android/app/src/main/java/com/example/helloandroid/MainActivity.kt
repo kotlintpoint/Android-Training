@@ -5,6 +5,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import com.example.helloandroid.fragments.LoginFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,5 +21,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         title = getString(R.string.dashboard)
+
+//        supportFragmentManager
+//            .beginTransaction()
+//            .add(R.id.fragmentContainerView, LoginFragment())
+//            .commit()
+
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            add<LoginFragment>(R.id.fragmentContainerView)
+        }
+
     }
 }
