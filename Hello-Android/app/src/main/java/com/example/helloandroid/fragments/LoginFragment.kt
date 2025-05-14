@@ -1,5 +1,6 @@
 package com.example.helloandroid.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import com.example.helloandroid.DrawerDashboardActivity
 import com.example.helloandroid.R
 import com.example.helloandroid.databinding.FragmentLoginBinding
 
@@ -54,6 +56,11 @@ class LoginFragment : Fragment() {
                 replace<RegisterFragment>(R.id.fragmentContainerView)
                 addToBackStack(LoginFragment::class.java.name)
             }
+        }
+
+        binding.btnSubmit.setOnClickListener {
+            val intent = Intent(context, DrawerDashboardActivity::class.java)
+            startActivity(intent)
         }
     }
 

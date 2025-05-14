@@ -11,7 +11,16 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.HelloAndroid" parent="Base.Theme.HelloAndroid" >
+    <style name="Theme.HelloAndroid" parent="Base.Theme.HelloAndroid">
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <style name="Theme.HelloAndroid.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.HelloAndroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.HelloAndroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
