@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        title = getString(R.string.dashboard)
+//        title = getString(R.string.dashboard)
 
 //        supportFragmentManager
 //            .beginTransaction()

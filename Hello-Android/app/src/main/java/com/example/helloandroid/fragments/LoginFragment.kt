@@ -50,6 +50,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.title = getString(R.string.login_here)
+
         binding.btnRegister.setOnClickListener {
             activity?.supportFragmentManager?.commit {
                 setReorderingAllowed(true)
@@ -59,6 +61,19 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnSubmit.setOnClickListener {
+
+            val userName = binding.etUserName.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            if(userName == "") {
+                binding.etUserName.error = "Required!!!"
+                return@setOnClickListener
+            }
+            if(password == "") {
+                binding.etPassword.error = "Required!!!"
+                return@setOnClickListener
+            }
+
             val intent = Intent(context, DrawerDashboardActivity::class.java)
             startActivity(intent)
         }

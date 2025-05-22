@@ -1,10 +1,13 @@
 package com.example.helloandroid.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import com.example.helloandroid.R
 import com.example.helloandroid.databinding.FragmentRegisterBinding
 
@@ -43,6 +46,45 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = getString(R.string.register_here)
+
+        binding.etPhone.addTextChangedListener {
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    if(s.toString().length < 10) {
+                        binding.layoutPhone.error = "Invalid!!!"
+                    }else {
+                        binding.layoutPhone.error = ""
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+        }
+
+        binding.rgGender.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId) {
+                R.id.rbMale -> binding.layoutAge.visibility = View.VISIBLE
+                R.id.rbFemale -> binding.layoutAge.visibility = View.GONE
+            }
+        }
+
+        binding.cbTerms.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.btnSubmit.isEnabled = isChecked
+        }
 
     }
 
