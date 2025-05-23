@@ -1,15 +1,20 @@
 package com.example.helloandroid.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import com.example.helloandroid.DrawerDashboardActivity
 import com.example.helloandroid.R
 import com.example.helloandroid.databinding.FragmentRegisterBinding
+import org.w3c.dom.Text
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,31 +54,23 @@ class RegisterFragment : Fragment() {
 
         activity?.title = getString(R.string.register_here)
 
-        binding.etPhone.addTextChangedListener {
-            object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    TODO("Not yet implemented")
-                }
+        binding.etPhone.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if(s.toString().length < 10) {
-                        binding.layoutPhone.error = "Invalid!!!"
-                    }else {
-                        binding.layoutPhone.error = ""
-                    }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString().length < 10) {
+                    binding.layoutPhone.error = "Invalid!!!"
+                }else {
+                    binding.layoutPhone.error = null
                 }
+            }
 
-                override fun afterTextChanged(s: Editable?) {
-                    TODO("Not yet implemented")
-                }
+            override fun afterTextChanged(s: Editable?) {
 
             }
-        }
+
+        })
 
         binding.rgGender.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId) {
@@ -86,6 +83,42 @@ class RegisterFragment : Fragment() {
             binding.btnSubmit.isEnabled = isChecked
         }
 
+        binding.btnSubmit.setOnClickListener {
+            if(isFormValid()){
+                val intent = Intent(context, DrawerDashboardActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+    }
+
+    private fun isFormValid(): Boolean {
+        var isValid = true
+        if(binding.etFirstName.text.toString().isEmpty()){
+            isValid = false
+            binding.layoutFirstName.error = "Required!!!"
+        }else{
+            binding.layoutFirstName.error = null
+        }
+
+        if(binding.etLastName.text.toString().isEmpty()){
+            isValid = false
+            binding.layoutLastName.error = "Required!!!"
+        }else{
+            binding.layoutLastName.error = null
+        }
+
+        if(binding.etEmail.text.toString().isEmpty()){
+            isValid = false
+            binding.layoutEmail.error = "Required!!!"
+        }
+        else if(!Patterns.EMAIL_ADDRESS.matcher(binding.etEmail.text.toString()).matches()) {
+            isValid = false
+            binding.layoutEmail.error = "Invalid Email!!!"
+        } else {
+            binding.layoutEmail.error = null
+        }
+        return isValid
     }
 
 //    companion object {

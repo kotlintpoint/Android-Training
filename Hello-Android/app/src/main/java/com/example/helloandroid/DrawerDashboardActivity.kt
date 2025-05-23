@@ -38,7 +38,11 @@ class DrawerDashboardActivity : AppCompatActivity() {
 //        }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+
+//        navView.menu.removeItem(R.id.nav_customer)
+
         val navController = findNavController(R.id.nav_host_fragment_content_drawer_dashboard)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(

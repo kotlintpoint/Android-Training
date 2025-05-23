@@ -17,6 +17,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [NewProductFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+// https://fakestoreapi.com/docs#tag/Products/operation/getAllProducts
 class NewProductFragment : Fragment() {
 //    // TODO: Rename and change types of parameters
 //    private var param1: String? = null
