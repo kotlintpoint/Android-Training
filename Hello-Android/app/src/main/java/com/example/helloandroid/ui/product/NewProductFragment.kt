@@ -9,8 +9,8 @@ import com.example.helloandroid.R
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+const val SCORE = "score"
+const val USER = "user"
 
 /**
  * A simple [Fragment] subclass.
@@ -37,6 +37,14 @@ class NewProductFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_product, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val score = arguments?.getInt(SCORE)
+        val user = arguments?.getString(USER)
+
     }
 
 //    companion object {
