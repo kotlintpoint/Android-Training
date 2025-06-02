@@ -1,5 +1,6 @@
 package com.example.helloandroid.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.example.helloandroid.DrawerDashboardActivity
+import com.example.helloandroid.IS_LOGIN
 import com.example.helloandroid.R
 import com.example.helloandroid.databinding.FragmentLoginBinding
 
@@ -72,6 +74,13 @@ class LoginFragment : Fragment() {
             if(password == "") {
                 binding.etPassword.error = "Required!!!"
                 return@setOnClickListener
+            }
+
+            val sharedPref = activity?.getSharedPreferences(
+                getString(R.string.app_name), Context.MODE_PRIVATE)?: return@setOnClickListener
+            with (sharedPref.edit()) {
+                putBoolean(IS_LOGIN, true)
+                apply()
             }
 
             val intent = Intent(context, DrawerDashboardActivity::class.java)

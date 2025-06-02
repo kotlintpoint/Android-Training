@@ -1,5 +1,7 @@
 package com.example.helloandroid
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +11,12 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.helloandroid.fragments.LoginFragment
 
+val IS_LOGIN = "IS_LOGIN"
+
 class MainActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,10 +34,20 @@ class MainActivity : AppCompatActivity() {
 //            .add(R.id.fragmentContainerView, LoginFragment())
 //            .commit()
 
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            add<LoginFragment>(R.id.fragmentContainerView)
-        }
 
+        val sharedPref = getSharedPreferences(
+            getString(R.string.app_name), Context.MODE_PRIVATE)
+        val isLogin = sharedPref.getBoolean(IS_LOGIN, false)
+
+        if(isLogin){
+            val intent = Intent(this, DrawerDashboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }else {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<LoginFragment>(R.id.fragmentContainerView)
+            }
+        }
     }
 }

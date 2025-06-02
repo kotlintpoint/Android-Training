@@ -1,5 +1,7 @@
 package com.example.helloandroid
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -54,19 +56,28 @@ class DrawerDashboardActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-//        addMenuProvider(object: MenuProvider {
-//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                menuInflater.inflate(R.menu.drawer_dashboard, menu)
-//            }
-//
-//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                if(menuItem.itemId == R.id.action_settings){
-//                    Log.i(DrawerDashboardActivity::class.java.name, "Settings clicked")
-//                    return true
-//                }
-//                return false;
-//            }
-//        })
+        addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.drawer_main_dashboard, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                if(menuItem.itemId == R.id.action_logout){
+                    val sharedPref = getSharedPreferences(
+                        getString(R.string.app_name), Context.MODE_PRIVATE) ?: return false
+                    with (sharedPref.edit()) {
+//                        remove(IS_LOGIN)
+                        putBoolean(IS_LOGIN, false)
+                        apply()
+                    }
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                    return true
+                }
+                return false;
+            }
+        })
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
