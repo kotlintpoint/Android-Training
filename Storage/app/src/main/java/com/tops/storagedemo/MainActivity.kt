@@ -9,9 +9,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.tops.storagedemo.databinding.ActivityMainBinding
 
-
+private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
-    private val TAG: String = MainActivity::class.java.name
+
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
