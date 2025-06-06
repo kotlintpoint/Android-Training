@@ -27,8 +27,11 @@ class NewUserActivity : AppCompatActivity() {
         }
 
 
-        val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
-        val dao = db.userDao()
+//        val db: AppDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name")
+//            .allowMainThreadQueries().build()
+//        val dao = db.userDao()
+
+        val dao = MyApplication.database.userDao()
 
         binding.btnSubmit.setOnClickListener {
             val user = User(null, binding.etFirstName.text.toString(), binding.etLastName.text.toString())

@@ -2,13 +2,17 @@ package com.tops.storagedemo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.tops.storagedemo.adapter.UserAdapter
 import com.tops.storagedemo.databinding.ActivityMainBinding
 import com.tops.storagedemo.databinding.ActivityUserBinding
 
+private const val TAG = "UserActivity"
 class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
@@ -30,6 +34,11 @@ class UserActivity : AppCompatActivity() {
             )
         }
 
+        val dao = MyApplication.database.userDao()
+        val users = dao.getAll()
+        Log.i(TAG, users.toString())
 
+        binding.userRecyclerView.layoutManager= LinearLayoutManager(this)
+        binding.userRecyclerView.adapter = UserAdapter(users)
     }
 }

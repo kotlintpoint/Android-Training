@@ -20,6 +20,6 @@ interface UserDao {
     fun update(user: User)
 
     @Query("SELECT * from user")
-    fun getAll()
+    fun getAll(): List<User>
 
 }
