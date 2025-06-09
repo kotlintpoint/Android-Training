@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tops.storagedemo.adapter.UserAdapter
 import com.tops.storagedemo.databinding.ActivityMainBinding
 import com.tops.storagedemo.databinding.ActivityUserBinding
+import com.tops.storagedemo.entities.User
 
 private const val TAG = "UserActivity"
 class UserActivity : AppCompatActivity() {
@@ -34,11 +35,40 @@ class UserActivity : AppCompatActivity() {
             )
         }
 
-        val dao = MyApplication.database.userDao()
-        val users = dao.getAll()
-        Log.i(TAG, users.toString())
+//        val dao = MyApplication.database.userDao()
+//        var users = dao.getAll()
+//        Log.i(TAG, users.toString())
 
         binding.userRecyclerView.layoutManager= LinearLayoutManager(this)
-        binding.userRecyclerView.adapter = UserAdapter(users)
+//        binding.userRecyclerView.adapter = UserAdapter(users, object : UserAdapter.OnUserClickListener {
+//            override fun onUserEdit(user: User) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onUserDelete(user: User) {
+//                dao.delete(user)
+//                users = dao.getAll()
+//                binding.userRecyclerView.adapter?.notifyDataSetChanged()
+//            }
+//        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val dao = MyApplication.database.userDao()
+        var users: ArrayList<User> = ArrayList(dao.getAll())
+        binding.userRecyclerView.adapter = UserAdapter(users, object : UserAdapter.OnUserClickListener {
+            override fun onUserEdit(user: User) {
+                val intent = Intent(applicationContext, NewUserActivity::class.java)
+                intent.putExtra("user", user)
+                startActivity(intent)
+            }
+
+            override fun onUserDelete(user: User) {
+                dao.delete(user) // remove from database
+                users.remove(user) // remove from array list
+                binding.userRecyclerView.adapter?.notifyDataSetChanged()
+            }
+        })
     }
 }

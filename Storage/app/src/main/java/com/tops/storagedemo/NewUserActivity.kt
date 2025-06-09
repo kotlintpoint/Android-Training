@@ -1,5 +1,6 @@
 package com.tops.storagedemo
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -26,6 +27,16 @@ class NewUserActivity : AppCompatActivity() {
             insets
         }
 
+        val user: User? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("user", User::class.java)
+        } else {
+            intent.getParcelableExtra("DATA")
+        }
+        if(user != null){
+            binding.etFirstName.setText(user.firstName)
+            binding.etLastName.setText(user.lastName)
+            binding.btnSubmit.setText("Update")
+        }
 
 //        val db: AppDatabase = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name")
 //            .allowMainThreadQueries().build()
@@ -34,9 +45,19 @@ class NewUserActivity : AppCompatActivity() {
         val dao = MyApplication.database.userDao()
 
         binding.btnSubmit.setOnClickListener {
-            val user = User(null, binding.etFirstName.text.toString(), binding.etLastName.text.toString())
-            dao.insertAll(user)
-            Log.i(TAG, "Inserted!!!")
+            if(user!=null) {
+                // update
+                user.firstName = binding.etFirstName.text.toString()
+                user.lastName = binding.etLastName.text.toString()
+                dao.update(user)
+                Log.i(TAG, "Updated!!!")
+            }else{
+                // insert
+                val user = User(null, binding.etFirstName.text.toString(), binding.etLastName.text.toString())
+                dao.insertAll(user)
+                Log.i(TAG, "Inserted!!!")
+            }
+            finish()
         }
 
     }
