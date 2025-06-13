@@ -1,7 +1,8 @@
 Restful API
 
 https://reqres.in/
-https://jsonplaceholder.typicode.com/
+Easy or Simple APIs
+https://jsonplaceholder.typicode.com/  
 https://restful-api.dev/
 
 
