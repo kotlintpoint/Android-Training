@@ -1,7 +1,9 @@
 package com.tops.retrofitdemo.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class NewProduct(
     @SerializedName("description")
@@ -10,6 +12,7 @@ data class NewProduct(
     val title: String
 )
 
+@Parcelize
 data class NewProductResponse(
     @SerializedName("description")
     val description: String,
@@ -17,4 +20,4 @@ data class NewProductResponse(
     val id: Int? = null,
     @SerializedName("title")
     val title: String
-)
+): Parcelable

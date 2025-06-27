@@ -1,5 +1,6 @@
 package com.tops.retrofitdemo
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +8,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
@@ -15,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tops.retrofitdemo.adapters.ProductAdapter
 import com.tops.retrofitdemo.databinding.ActivityMainBinding
+import com.tops.retrofitdemo.model.NewProductResponse
 import com.tops.retrofitdemo.model.Product
 import com.tops.retrofitdemo.model.ProductRoot
 import com.tops.retrofitdemo.service.RetrofitClient
@@ -27,6 +31,28 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var productData: ArrayList<Product>
+    private var productPosition: Int? = null
+
+    val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())  { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val newProduct = result.data?.getParcelableExtra("product", NewProductResponse::class.java)
+            val product = Product(
+                id = newProduct!!.id,
+                title = newProduct.title,
+                description = newProduct.description
+            )
+            Toast.makeText(this, "Received: $product", Toast.LENGTH_SHORT).show()
+            if(productPosition != null){
+                // update
+                productData.set(productPosition!!, product)
+            }else{
+                productData.add(0, product)
+            }
+
+            binding.recyclerView.adapter!!.notifyDataSetChanged()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,7 +74,8 @@ class MainActivity : AppCompatActivity() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 if(menuItem.itemId == R.id.action_new) {
-                    startActivity(Intent(applicationContext, NewProductActivity::class.java))
+                    val intent = Intent(applicationContext, NewProductActivity::class.java)
+                    resultLauncher.launch(intent)
                     return true
                 }
                 return false;
@@ -76,9 +103,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindProductDataAdapter(data: ProductRoot?) {
+
         productData = (data?.products as ArrayList<Product>?)!!
         binding.recyclerView.adapter = ProductAdapter(productData, object: ProductAdapter.ProductClickListener{
             override fun onProductEdit(position: Int) {
+                productPosition = position
+                val intent = Intent(applicationContext, NewProductActivity::class.java)
+                val bundle = Bundle().apply {
+                    putParcelable("product", productData[position])
+                }
+                intent.putExtras(bundle)
+                resultLauncher.launch(intent)
 
             }
 
@@ -89,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deleteProduct(position: Int) {
-        val call = RetrofitClient.getInstance().deleteProduct(productData[position].id)
+        val call = RetrofitClient.getInstance().deleteProduct(productData[position].id!!)
         binding.progressBar.visibility = View.VISIBLE
         call.enqueue(object: Callback<Product> {
             override fun onResponse(call: Call<Product>, response: Response<Product>) {

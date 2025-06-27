@@ -1,7 +1,9 @@
 package com.tops.retrofitdemo.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class ProductRoot(
     @SerializedName("limit")
@@ -14,53 +16,55 @@ data class ProductRoot(
     val total: Int
 )
 
+@Parcelize
 data class Product(
     @SerializedName("availabilityStatus")
-    val availabilityStatus: String,
+    val availabilityStatus: String? = null,
     @SerializedName("brand")
-    val brand: String,
+    val brand: String? = null,
     @SerializedName("category")
-    val category: String,
+    val category: String? = null,
     @SerializedName("description")
-    val description: String,
+    var description: String,
     @SerializedName("dimensions")
-    val dimensions: Dimensions,
+    val dimensions: Dimensions? = null,
     @SerializedName("discountPercentage")
-    val discountPercentage: Double,
+    val discountPercentage: Double? = null,
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName("images")
-    val images: List<String>,
+    val images: List<String>? = null,
     @SerializedName("meta")
-    val meta: Meta,
+    val meta: Meta? = null,
     @SerializedName("minimumOrderQuantity")
-    val minimumOrderQuantity: Int,
+    val minimumOrderQuantity: Int? = null,
     @SerializedName("price")
-    val price: Double,
+    val price: Double? = null,
     @SerializedName("rating")
-    val rating: Double,
+    val rating: Double? = null,
     @SerializedName("returnPolicy")
-    val returnPolicy: String,
+    val returnPolicy: String? = null,
     @SerializedName("reviews")
-    val reviews: List<Review>,
+    val reviews: List<Review>? = null,
     @SerializedName("shippingInformation")
-    val shippingInformation: String,
+    val shippingInformation: String? = null,
     @SerializedName("sku")
-    val sku: String,
+    val sku: String? = null,
     @SerializedName("stock")
-    val stock: Int,
+    val stock: Int? = null,
     @SerializedName("tags")
-    val tags: List<String>,
+    val tags: List<String>? = null,
     @SerializedName("thumbnail")
-    val thumbnail: String,
+    val thumbnail: String? = null,
     @SerializedName("title")
-    val title: String,
+    var title: String,
     @SerializedName("warrantyInformation")
-    val warrantyInformation: String,
+    val warrantyInformation: String? = null,
     @SerializedName("weight")
-    val weight: Int
-)
+    val weight: Int? = null
+): Parcelable
 
+@Parcelize
 data class Review(
     @SerializedName("comment")
     val comment: String,
@@ -72,8 +76,9 @@ data class Review(
     val reviewerEmail: String,
     @SerializedName("reviewerName")
     val reviewerName: String
-)
+): Parcelable
 
+@Parcelize
 data class Meta(
     @SerializedName("barcode")
     val barcode: String,
@@ -83,8 +88,9 @@ data class Meta(
     val qrCode: String,
     @SerializedName("updatedAt")
     val updatedAt: String
-)
+): Parcelable
 
+@Parcelize
 data class Dimensions(
     @SerializedName("depth")
     val depth: Double,
@@ -92,4 +98,4 @@ data class Dimensions(
     val height: Double,
     @SerializedName("width")
     val width: Double
-)
+): Parcelable

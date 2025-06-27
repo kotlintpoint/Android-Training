@@ -9,6 +9,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface RetrofitService {
@@ -19,8 +20,8 @@ interface RetrofitService {
     @POST("products/add")
     fun saveProduct(@Body product: NewProduct): Call<NewProductResponse>
 
-    @POST("products/{id}")
-    fun updateProduct(@Path("id") groupId: Int, @Body product: NewProduct): Call<NewProductResponse>
+    @PUT("products/{id}")
+    fun updateProduct(@Path("id") groupId: Int?, @Body product: NewProduct): Call<NewProductResponse>
 
     @DELETE("products/{id}")
     fun deleteProduct(@Path("id") groupId: Int): Call<Product>

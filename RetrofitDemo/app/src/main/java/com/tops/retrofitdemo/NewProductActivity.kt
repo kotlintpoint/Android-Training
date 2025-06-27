@@ -29,13 +29,11 @@ import com.tops.retrofitdemo.service.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
+
 
 private const val TAG = "NewProductActivity"
 class NewProductActivity : AppCompatActivity() {
+    private var product: Product? = null
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private val REQUEST_IMAGE_CAPTURE: Int = 100
     private lateinit var binding: ActivityNewProductBinding
@@ -51,9 +49,23 @@ class NewProductActivity : AppCompatActivity() {
             insets
         }
 
+        val bundle = intent.extras
+        product = bundle!!.getParcelable("product", Product::class.java)
+        if(product != null){
+            binding.etTitle.setText(product!!.title)
+            binding.etDescription.setText(product!!.description)
+            binding.btnSubmit.setText("Update")
+        }
+
         setSupportActionBar(binding.toolbar)
         binding.btnSubmit.setOnClickListener {
-            submitNewProduct()
+            if(product != null){
+                // update
+                updateProduct()
+            }else{
+                submitNewProduct()
+            }
+
         }
 
         binding.btnBrowse.setOnClickListener {
@@ -71,6 +83,31 @@ class NewProductActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun updateProduct() {
+        val newProduct = NewProduct( title = binding.etTitle.text.toString(), description = binding.etDescription.text.toString())
+        val call = RetrofitClient.getInstance().updateProduct(product!!.id, newProduct)
+        call.enqueue(object: Callback<NewProductResponse>{
+            override fun onResponse(
+                call: Call<NewProductResponse>,
+                response: Response<NewProductResponse>
+            ) {
+                if(response.isSuccessful && response.raw().code == 200){
+                    Log.i(TAG, response.body()!!.toString())
+                    val resultIntent = Intent().apply {
+                        putExtra("product", response.body()!!)
+                    }
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
+                }
+            }
+
+            override fun onFailure(call: Call<NewProductResponse>, t: Throwable) {
+                Log.i(TAG, t.message!!)
+            }
+
+        })
     }
 
     private fun showOptionsToChooseImage() {
@@ -108,6 +145,11 @@ class NewProductActivity : AppCompatActivity() {
                 Log.i(TAG, response.raw().toString())
                 if(response.isSuccessful && response.raw().code == 201){
                     Log.i(TAG, response.body()!!.toString())
+                    val resultIntent = Intent().apply {
+                        putExtra("product", response.body()!!)
+                    }
+                    setResult(RESULT_OK, resultIntent)
+                    finish()
                 }
             }
 
