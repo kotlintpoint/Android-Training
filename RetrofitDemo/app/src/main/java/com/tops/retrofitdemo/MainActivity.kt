@@ -16,6 +16,8 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.tops.retrofitdemo.adapters.ProductAdapter
 import com.tops.retrofitdemo.databinding.ActivityMainBinding
 import com.tops.retrofitdemo.model.NewProductResponse
@@ -76,6 +78,10 @@ class MainActivity : AppCompatActivity() {
                 if(menuItem.itemId == R.id.action_new) {
                     val intent = Intent(applicationContext, NewProductActivity::class.java)
                     resultLauncher.launch(intent)
+                    return true
+                }else if(menuItem.itemId == R.id.action_logout){
+                    Firebase.auth.signOut()
+                    finish()
                     return true
                 }
                 return false;

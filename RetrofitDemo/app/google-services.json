@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "986508036912",
+    "project_id": "retrofit-demo-c0fa5",
+    "storage_bucket": "retrofit-demo-c0fa5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986508036912:android:42db07391dcf525ca2d6f5",
+        "android_client_info": {
+          "package_name": "com.tops.retrofitdemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAprg7yETtVjvRSPF6-VUG7uiBWdyR--L8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
