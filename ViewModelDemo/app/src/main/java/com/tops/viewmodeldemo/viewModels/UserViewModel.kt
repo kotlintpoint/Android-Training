@@ -6,15 +6,21 @@ import androidx.lifecycle.ViewModel
 import com.tops.viewmodeldemo.model.User
 
 class UserViewModel: ViewModel() {
-    private val _users = MutableLiveData<List<User>>().apply {
-        listOf(
+    private val _users = MutableLiveData<List<User>>()
+
+    val users: LiveData<List<User>> = _users
+
+    init {
+        loadUsers()
+    }
+
+    private fun loadUsers() {
+        _users.value = listOf(
             User(1, "Raj"),
             User(2, "Mit"),
             User(3, "Prit")
         )
     }
-
-    val users: LiveData<List<User>> = _users
 
     fun addUser(user: User) {
         val updatedList  = _users.value.orEmpty().toMutableList()
