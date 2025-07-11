@@ -18,7 +18,7 @@ class UserViewModel: ViewModel() {
         _users.value = listOf(
             User(1, "Raj"),
             User(2, "Mit"),
-            User(3, "Prit")
+            User(3, "Prit", "prit@gmail.com")
         )
     }
 
