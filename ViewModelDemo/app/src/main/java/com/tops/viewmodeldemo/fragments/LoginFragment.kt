@@ -13,6 +13,7 @@ import com.tops.viewmodeldemo.databinding.FragmentLoginBinding
 import com.tops.viewmodeldemo.model.LoginResponse
 import com.tops.viewmodeldemo.model.LoginUser
 import com.tops.viewmodeldemo.services.AuthService
+import com.tops.viewmodeldemo.services.SharedPreferenceService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,6 +59,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val loginResponse = SharedPreferenceService(requireActivity()).readLoginResponse()
+        if(loginResponse != null){
+            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
+        }
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://dummyjson.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -82,6 +88,7 @@ class LoginFragment : Fragment() {
             ) {
                 if(response.isSuccessful){
                     // save data to sharePreference
+                    SharedPreferenceService(requireActivity()).writeLoginResponse(response.body()!!)
                     findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
                 }
             }

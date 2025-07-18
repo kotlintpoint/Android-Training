@@ -1,11 +1,20 @@
 package com.tops.viewmodeldemo.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tops.viewmodeldemo.R
+import com.tops.viewmodeldemo.model.UserProfile
+import com.tops.viewmodeldemo.services.AuthService
+import com.tops.viewmodeldemo.services.SharedPreferenceService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,6 +27,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
+    private lateinit var service: AuthService
+    private val TAG = "ProfileFragment"
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -36,6 +48,42 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://dummyjson.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        service = retrofit.create(AuthService::class.java)
+        fetchProfileDetails()
+    }
+
+    private fun fetchProfileDetails() {
+        val loginResponse = SharedPreferenceService(requireActivity()).readLoginResponse()
+        if(loginResponse == null){
+            // navigate to loginFragment
+        }
+        else
+        {
+            val accessToken = loginResponse.accessToken
+            Log.i(TAG, accessToken)
+            val call = service.profile("Bearer $accessToken")
+            call.enqueue(object: Callback<UserProfile>{
+                override fun onResponse(call: Call<UserProfile>, response: Response<UserProfile>) {
+                    if(response.isSuccessful){
+                        Log.i(TAG, response.body().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<UserProfile>, t: Throwable) {
+                    Log.i(TAG, t.toString())
+                }
+
+            })
+        }
     }
 
     companion object {
